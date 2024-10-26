@@ -90,3 +90,22 @@
 .box-item:active {
   scale: 95%;
 }
+
+.restart {
+  font-size: 18px;
+  margin-top: 10px;
+  opacity: 80%;
+}
+
+.restart:hover {
+  opacity: 100%;
+  cursor: pointer;
+  font-weight: bold;
+  transition: ease-in-out;
+  transition-duration: 0.1s;
+}
+
+.restart:active {
+  scale: 95%;
+  opacity: 60%;
+}
