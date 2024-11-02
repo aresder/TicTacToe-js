@@ -65,7 +65,7 @@
   transition-duration: 0.5s;
 }
 
-.box {
+.board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
@@ -111,4 +111,11 @@
 .restart:active {
   scale: 95%;
   opacity: 60%;
+}
+
+.box-win {
+  background-color: rgb(47, 0, 255);
+  scale: 105%;
+  transition: ease-in-out;
+  transition-duration: 0.3s;
 }

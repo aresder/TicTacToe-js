@@ -7,6 +7,7 @@ const palyer_O_color = '#f5f5f7'
 const scale_normal = '90%'
 const scale_down = '85%'
 const scale_up = '105%'
+const delay_wining_alert = 150
 
 player_X.style.backgroundColor = player_X_background_color
 player_O.style.backgroundColor = player_O_background_color
@@ -30,22 +31,35 @@ let board_state = [
   '', '', ''
 ]
 
-function handleBoxClick(e) {
-  const box_clicked = e.target
+function handleBoxClick(event) {
+  const box_clicked = event.target
   const box_clicked_index = Number(box_clicked.getAttribute('data-index'))
 
   if (board_state[box_clicked_index] !== '' || !is_game_active) return
 
-  handleBoxPlayed(box_clicked, box_clicked_index)
-  box_clicked.innerHTML === 'X' ? box_clicked.style.color = palyer_X_color : box_clicked.style.color = palyer_O_color
+  handleBoxChange(box_clicked, box_clicked_index)
 
-  handlePlayerChange()
-  handleCheckWin()
+  console.log(board_state.every(box => box))
+
+  if (handleCheckWin()) {
+    setTimeout(() => {
+      alert(`${current_player} menang`)
+      handleRestart()
+    }, delay_wining_alert)
+  } else if (board_state.every((box) => box)) {
+    setTimeout(() => {
+      alert(`Permainan seri`)
+      handleRestart()
+    }, delay_wining_alert)
+  } else {
+    handlePlayerChange()
+  }
 }
 
-function handleBoxPlayed(box_clicked, box_clicked_index) {
+function handleBoxChange(box_clicked, box_clicked_index) {
   board_state[box_clicked_index] = current_player
   box_clicked.innerHTML = current_player
+  box_clicked.innerHTML === 'X' ? box_clicked.style.color = palyer_X_color : box_clicked.style.color = palyer_O_color
 }
 
 function handlePlayerChange() {
@@ -61,13 +75,23 @@ function handlePlayerChange() {
     player_X.style.backgroundColor = player_O_background_color
     player_X.style.scale = scale_down
   }
+  return current_player
 }
 
 function handleCheckWin() {
-  return winning_pattern.some((pattern) => {
+  const check = winning_pattern.find((pattern) => {
     const [a, b, c] = pattern
     return board_state[a] && board_state[a] === board_state[b] && board_state[a] === board_state[c]
   })
+
+  if (check) {
+    check.forEach((value) => {
+      document.querySelector(`#box-${value}`).classList.add('box-win')
+    })
+    return true
+  }
+
+  return false
 }
 
 function handleRestart() {
@@ -82,6 +106,7 @@ function handleRestart() {
   player_X.style.scale = scale_normal
   player_O.style.backgroundColor = player_O_background_color
   player_O.style.scale = scale_normal
+  document.querySelectorAll('.box-item').forEach((box) => box.classList.remove('box-win'))
   document.querySelectorAll('.box-item').forEach((box) => box.innerHTML = '')
 }
 

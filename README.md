@@ -1,2 +1,1 @@
-# Tic Tac Toe Javascript
-Progress
+# Tic Tac Toe js
