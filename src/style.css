@@ -4,7 +4,13 @@
   --background-color: #eddfe0;
   --title-color: #323030;
   --board-color: #705c53;
+  --box-color: #323030;
+  --box-win-color: #000000;
   --primary-font: "DynaPuff";
+}
+
+.color {
+  opacity: 30%;
 }
 
 * {
@@ -82,7 +88,7 @@
   font-size: 48px;
   width: 96px;
   height: 96px;
-  background-color: #323030;
+  background-color: var(--box-color);
   border-radius: 15%;
 }
 
@@ -114,8 +120,20 @@
 }
 
 .box-win {
-  background-color: rgb(47, 0, 255);
+  background-color: var(--box-win-color);
   scale: 105%;
   transition: ease-in-out;
-  transition-duration: 0.3s;
+  transition-duration: 150ms;
 }
+
+/* .win-alert {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  padding: 12px;
+  width: 50%;
+  margin: auto;
+  border-radius: 10px;
+} */

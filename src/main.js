@@ -2,8 +2,8 @@ let player_X = document.querySelector('#player-X')
 let player_O = document.querySelector('#player-O')
 const player_X_background_color = '#323030'
 const player_O_background_color = '#827878'
-const palyer_X_color = '#b7b7b7'
-const palyer_O_color = '#f5f5f7'
+const palyer_X_color = '#FF6500'
+const palyer_O_color = '#E4E0E1'
 const scale_normal = '90%'
 const scale_down = '85%'
 const scale_up = '105%'
@@ -37,26 +37,12 @@ function handleBoxClick(event) {
 
   if (board_state[box_clicked_index] !== '' || !is_game_active) return
 
-  handleBoxChange(box_clicked, box_clicked_index)
-
-  console.log(board_state.every(box => box))
-
-  if (handleCheckWin()) {
-    setTimeout(() => {
-      alert(`${current_player} menang`)
-      handleRestart()
-    }, delay_wining_alert)
-  } else if (board_state.every((box) => box)) {
-    setTimeout(() => {
-      alert(`Permainan seri`)
-      handleRestart()
-    }, delay_wining_alert)
-  } else {
-    handlePlayerChange()
-  }
+  handleBoardStateAndBoxChange(box_clicked, box_clicked_index)
+  handlePlayerChange()
+  handleCheckWin()
 }
 
-function handleBoxChange(box_clicked, box_clicked_index) {
+function handleBoardStateAndBoxChange(box_clicked, box_clicked_index) {
   board_state[box_clicked_index] = current_player
   box_clicked.innerHTML = current_player
   box_clicked.innerHTML === 'X' ? box_clicked.style.color = palyer_X_color : box_clicked.style.color = palyer_O_color
@@ -88,10 +74,22 @@ function handleCheckWin() {
     check.forEach((value) => {
       document.querySelector(`#box-${value}`).classList.add('box-win')
     })
-    return true
+    setTimeout(() => {
+      handlePlayerChange()
+      alert(`${current_player} menang`)
+      handleRestart()
+    }, delay_wining_alert)
+    return
   }
 
-  return false
+  if (board_state.every((box) => box)) {
+    setTimeout(() => {
+      alert(`Permainan seri`)
+      handlePlayerChange()
+      handleRestart()
+    }, delay_wining_alert)
+    return
+  }
 }
 
 function handleRestart() {
